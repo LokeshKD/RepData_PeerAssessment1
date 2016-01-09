@@ -1,14 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r echo = TRUE}
 
+```r
   # unzip and read the dataset, get a tidy dataset.
   unzip("activity.zip")
   act <- read.csv("activity.csv", header = TRUE)
@@ -20,39 +15,69 @@ output:
 ```
 
 ## What is mean total number of steps taken per day?
-```{r echo = TRUE}
-  
+
+```r
   # get an aggregate subset and plot a histogram
   act.agg <- aggregate(steps ~ date, act.good, sum )
 
   hist(act.agg$steps, col = "blue", xlab = "No of Steps",
         ylab = "No of days", main = "Steps taken per day (excluding missing values)")
-        
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+```r
   # Now mean and median of steps taken per day.
   cat("Mean of Steps taken per day: ", mean(act.agg$steps))
+```
+
+```
+## Mean of Steps taken per day:  10766.19
+```
+
+```r
   cat("Median of Steps taken per day: ", median(act.agg$steps))
 ```
 
+```
+## Median of Steps taken per day:  10765
+```
+
 ## What is the average daily activity pattern?
-```{r echo = TRUE}  
-  
+
+```r
   # get the mean subset and plot a graph.
   act.mean <- aggregate(steps ~ interval, act.good, mean)
   
   plot(act.mean$interval, act.mean$steps, type = "l", 
        xlab = "Time Interval", ylab = "Average activity i.e Steps taken",
        main = "Time series plot of the average number of steps taken")
-  
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+
+```r
   cat("5 Min Interval that contains maximum number of steps: ",
       act.mean[which(act.mean$steps == max(act.mean$steps)), 1])
 ```
 
+```
+## 5 Min Interval that contains maximum number of steps:  835
+```
+
 ## Imputing missing values
-```{r echo = TRUE}
+
+```r
   # Report the number of NA observations.
   cat("Total number of Observations with NA in steps column: ",
       nrow(act) - nrow(act.good))
-  
+```
+
+```
+## Total number of Observations with NA in steps column:  2304
+```
+
+```r
   # Idea here is simple.
   # We have calculated the mean of 5 min time interval across all days.
   # Filling the values of "act.fill"" with the mean of 5 min interval from "act.mean"
@@ -73,8 +98,11 @@ output:
         ylab = "No of days", main = "Steps taken per day (missing values imputed)")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r echo = TRUE}
+
+```r
   # Get the day type from date variable.
   day <- weekdays(as.Date(act.neat$date))
   
@@ -91,5 +119,6 @@ output:
   library(lattice)
   xyplot(steps ~ interval | day, day_end, type = "l", layout = c(1,2),
          xlab = "Interval", ylab = "Number of Steps")
-  
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
