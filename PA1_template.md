@@ -43,6 +43,7 @@
 ## Median of Steps taken per day:  10765
 ```
 
+
 ## What is the average daily activity pattern?
 
 ```r
@@ -65,17 +66,13 @@
 ## 5 Min Interval that contains maximum number of steps:  835
 ```
 
+
 ## Imputing missing values
-
-```r
-  # Report the number of NA observations.
-  cat("Total number of Observations with NA in steps column: ",
-      nrow(act) - nrow(act.good))
-```
-
-```
-## Total number of Observations with NA in steps column:  2304
-```
+#### Strategy:
+    Idea here is simple.  
+    Fill the missing vaues with caclulated mean on 5 min interval computed across all days. 
+    Get the dataset with missing values, fill the values, merge "good" & "filled" into one.  
+   
 
 ```r
   # Idea here is simple.

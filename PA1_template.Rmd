@@ -27,11 +27,13 @@ output:
 
   hist(act.agg$steps, col = "blue", xlab = "No of Steps",
         ylab = "No of days", main = "Steps taken per day (excluding missing values)")
-        
+  
   # Now mean and median of steps taken per day.
   cat("Mean of Steps taken per day: ", mean(act.agg$steps))
   cat("Median of Steps taken per day: ", median(act.agg$steps))
-```
+        
+```  
+
 
 ## What is the average daily activity pattern?
 ```{r echo = TRUE}  
@@ -42,17 +44,19 @@ output:
   plot(act.mean$interval, act.mean$steps, type = "l", 
        xlab = "Time Interval", ylab = "Average activity i.e Steps taken",
        main = "Time series plot of the average number of steps taken")
-  
+
   cat("5 Min Interval that contains maximum number of steps: ",
       act.mean[which(act.mean$steps == max(act.mean$steps)), 1])
-```
+```  
+
 
 ## Imputing missing values
-```{r echo = TRUE}
-  # Report the number of NA observations.
-  cat("Total number of Observations with NA in steps column: ",
-      nrow(act) - nrow(act.good))
-  
+#### Strategy:
+    Idea here is simple.  
+    Fill the missing vaues with caclulated mean on 5 min interval computed across all days. 
+    Get the dataset with missing values, fill the values, merge "good" & "filled" into one.  
+   
+```{r echo = TRUE}  
   # Idea here is simple.
   # We have calculated the mean of 5 min time interval across all days.
   # Filling the values of "act.fill"" with the mean of 5 min interval from "act.mean"
